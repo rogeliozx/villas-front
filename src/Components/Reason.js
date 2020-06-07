@@ -15,11 +15,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function RadioButtonsGroup({saveReason}) {
   const classes = useStyles();
-  const [value, setValue] = React.useState('Visita');
+  const [value, setValue] = React.useState('');
 
   const handleChange = event => {
     setValue(event.target.value);
-    saveReason(value)
+    saveReason(event.target.value)
   };
 
   return (
@@ -31,19 +31,16 @@ export default function RadioButtonsGroup({saveReason}) {
             value="Visita"
             control={<Radio color="primary" />}
             label="Visita"
-            labelPlacement="start"
           />
           <FormControlLabel
             value="Servicio"
             control={<Radio color="primary" />}
             label="Servicio"
-            labelPlacement="start"
           />
           <FormControlLabel
             value="Oxxo"
             control={<Radio color="primary" />}
             label="Oxxo"
-            labelPlacement="start"
           />
         </RadioGroup>
         <FormHelperText>Razon de visita</FormHelperText>

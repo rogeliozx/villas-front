@@ -1,23 +1,44 @@
-
 /* eslint-disable no-use-before-define */
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete, {
-  createFilterOptions
+  createFilterOptions,
 } from '@material-ui/lab/Autocomplete';
+import axios from 'axios';
 
 const filter = createFilterOptions();
-
-export default function SelectNumber({saveNumber}) {
-  const [value, setValue] = React.useState(null);
-
+export default function SelectNumber({ saveNumber, codeSection }) {
+  const [codes, setCodes] = useState(null);
+  const fetchCodes = useCallback(async () => {
+    if (!codeSection) {
+      return;
+    }
+    try {
+      const { data } = await axios.get(
+        `http://192.168.100.3:3001/api/users-sections?section=${codeSection.name}`
+      );
+      const users = [];
+      data.users.forEach((element) => {
+        const user = {
+          code: element,
+        };
+        users.push(user);
+      });
+      setCodes(users);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [setCodes, codeSection]);
+  useEffect(() => {
+    fetchCodes();
+  }, [fetchCodes]);
   return (
     <Autocomplete
-      value={value}
+      disabled={codes ? false : true}
       onChange={(event, newValue) => {
         if (newValue && newValue.inputValue) {
           saveNumber({
-            title: newValue.inputValue
+            title: newValue.inputValue,
           });
 
           return;
@@ -27,43 +48,31 @@ export default function SelectNumber({saveNumber}) {
       }}
       filterOptions={(options, params) => {
         const filtered = filter(options, params);
-
         if (params.inputValue !== '') {
           filtered.push({
             inputValue: params.inputValue,
-            title: `Add "${params.inputValue}"`
+            title: `Add "${params.inputValue}"`,
           });
         }
-
         return filtered;
       }}
-      id='free-solo-with-text-demo'
-      options={top100Films}
-      getOptionLabel={option => {
+      options={codes ? codes : []}
+      getOptionLabel={(option) => {
         // e.g value selected with enter, right from the input
         if (typeof option === 'string') {
           return option;
         }
-        if (option.inputValue) {
-          return option.inputValue;
+        if (option.code) {
+          return option.code;
         }
-        return option.title;
+        return option.code;
       }}
-      renderOption={option => option.title}
+      renderOption={(option) => option.code}
       style={{ width: 300, margin: '0 auto' }}
       freeSolo
-      renderInput={params => (
+      renderInput={(params) => (
         <TextField {...params} label='Codigo de Casa' variant='outlined' />
       )}
     />
   );
 }
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
-  { title: ' 01'},
-  { title: '02' },
-  { title: '03'},
-  { title: '04' },
-  { title: ' 05' }
-];
