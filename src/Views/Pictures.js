@@ -9,7 +9,7 @@ const useStyles = makeStyles({
   },
   containerButton: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
+    gridTemplateColumns:'1fr',
     gridTemplateRows: '1fr',
     gridColumnGap: '7rem',
     marginRight: '25%',
@@ -67,7 +67,7 @@ const Pictures = ({ data, setViewImage }) => {
             color='primary'
             size='large'
             className={classes.confirmButton}
-            onClick={()=>{}}
+            onClick={()=>{setViewImage(false)}}
           >
             Aceptar
           </Button>

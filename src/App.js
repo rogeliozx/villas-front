@@ -9,7 +9,7 @@ function App() {
   const [data, setData]= useState();
   return (
     <div className='App'>
-      {viewImage ? <Pictures data={data} /> : <Visits setData={setData} setViewImage={setViewImage} />}
+      {viewImage ? <Pictures data={data} setViewImage={setViewImage} /> : <Visits setData={setData} setViewImage={setViewImage} />}
     </div>
   );
 }
