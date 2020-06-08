@@ -47,9 +47,6 @@ export default function Visits({ setViewImage, setData }) {
   const [code, saveCode] = useState('');
   const [number, saveNumber] = useState('');
   const [reason, saveReason] = useState('');
-  const [codeError, setCodeError] = useState(false);
-  const [numberError, setNumberError] = useState(false);
-  const [reasonError, setReasonError] = useState(false);
   const [loading, setLoading] = useState(false);
   const getImages = async () => {
     setLoading(true);

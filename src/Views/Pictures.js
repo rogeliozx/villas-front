@@ -38,7 +38,7 @@ const Pictures = ({ data, setViewImage }) => {
     data.picture.ife = data.picture.ife.replace(/\\/g, '\\\\');
     console.log(data);
     setUrlReady(true);
-  }, [urlReady]);
+  }, [urlReady,data]);
   const classes = useStyles();
   return (
     <Fragment>
